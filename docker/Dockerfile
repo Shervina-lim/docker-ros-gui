@@ -30,5 +30,5 @@ COPY bashrc /root/.bashrc
 COPY bash_profile /home/${ros_distro}-dev/.bash_profile
 COPY bash_profile /root/.bash_profile
 
-COPY rosbox_entrypoint.sh /rosbox_entrypoint.sh
+COPY rosbox_entrypoint.sh /rosbox_entrypoint.sh 
 ENTRYPOINT /rosbox_entrypoint.sh
