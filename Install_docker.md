@@ -4,29 +4,29 @@ Setting up the repo
 
 1. Update the apt package index and install packages to allow apt to use a repository over HTTPS:
 
-	$ sudo apt-get update
+		$ sudo apt-get update
 
-	$ sudo apt-get install \
-    	  apt-transport-https \
-    	  ca-certificates \
-    	  curl \
-    	  gnupg-agent \
-    	  software-properties-common
+		$ sudo apt-get install \
+    	  	apt-transport-https \
+    	 	ca-certificates \
+    	  	curl \
+    	  	gnupg-agent \
+    	  	software-properties-common
 
 2. Add Docker’s official GPG key:
 
-	$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+		$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
 3. Verify is fingerprints are 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88
 
-	$ sudo apt-key fingerprint 0EBFCD88
+		$ sudo apt-key fingerprint 0EBFCD88	
 
 4. Setup stable repo (for ubuntu x64)
 
-	$ sudo add-apt-repository \
-   	  "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   	  $(lsb_release -cs) \
-   	  stable"
+		$ sudo add-apt-repository \
+   	  	"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   	  	$(lsb_release -cs) \
+   	  	stable"
 
 Installing Docker engine
 
@@ -56,15 +56,15 @@ Download Docker Compose:
 
 1. Download current stable release of Docker Compose:
 
-	$ sudo curl -L "https://github.com/docker/compose/releases/download/1.27.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+		$ sudo curl -L "https://github.com/docker/compose/releases/download/1.27.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 2. Apply executeable permissions:
 
-	$ sudo chmod +x /usr/local/bin/docker-compose
+		$ sudo chmod +x /usr/local/bin/docker-compose
 
 3. Test docker compose
 
-	$ docker-compose --version
+		$ docker-compose --version
 
 Get Docker images from: https://hub.docker.com/search?q=&type=image
 
