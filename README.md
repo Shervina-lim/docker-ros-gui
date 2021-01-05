@@ -1,6 +1,6 @@
 ROS docker container that can run gui applications
 
-This was created with reference to [docker-ros-box](https://github.com/pierrekilly/docker-ros-box) and [ros docker tutorials] (http://wiki.ros.org/docker/Tutorials/GUI).
+This was created with reference to [docker-ros-box](https://github.com/pierrekilly/docker-ros-box) and [ros docker tutorials](http://wiki.ros.org/docker/Tutorials/GUI).
 
 To use this, docker is sufficient since only using docker run to create containers. No need docker compose.
 Please make sure that user is in docker group
