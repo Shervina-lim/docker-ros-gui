@@ -3,12 +3,18 @@ ROS docker container that can run gui applications
 This was created with reference to docker-ros-box (https://github.com/pierrekilly/docker-ros-box) and ros docker tutorials (http://wiki.ros.org/docker/Tutorials/GUI).
 
 To use this, docker is sufficient since only using docker run to create containers. No need docker compose.
+Please make sure that user is in docker group
 
-To install:
+Clone this:
 
+	$ git clone https://github.com/Shervina-lim/docker-ros-gui.git
+
+To create new containers:	
+	
 	$ sudo ./docker-ros-melodic/build.sh [ros-version] [container_name]
 
 ### Note: 
+
 - container_name = file_name 
 - user name =  <container_name>-dev
 - Src folder in ~/<file_name>/src is linked.
