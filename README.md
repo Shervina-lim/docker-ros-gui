@@ -8,7 +8,7 @@ To install:
 
 	$ sudo ./docker-ros-melodic/build.sh [ros-version] [container_name]
 
-###Note: 
+### Note: 
 - container_name = file_name 
 - user name =  <container_name>-dev
 - Src folder in ~/<file_name>/src is linked.
