@@ -39,5 +39,5 @@ Example:
 	$ xclock
 	$ glxgears
 
-To open more terminals of the container, run the go.sh file again in a new terminal.
+To open more terminals of the container,run the **docker exec** line again.
 
