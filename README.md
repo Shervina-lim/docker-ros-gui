@@ -41,3 +41,8 @@ Example:
 
 To open more terminals of the container,run the **docker exec** line again.
 
+Future:
+
+- Add instructions to allow usb devices
+- Add instructions to mount volumes
+
