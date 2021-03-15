@@ -11,21 +11,24 @@ Clone this:
 
 To create new containers:	
 	
-	$ sudo ./docker-ros-melodic/build.sh [ros-version] [container_name]
+	$ cd docker-ros-gui
+	$ sudo ./build.sh [ros-version] [container_name]
 
 ### Note: 
-
-- container_name = file_name 
-- user name =  <container_name>-dev
-- Src folder in ~/<file_name>/src is linked. Can use this to transfer files between container and local.
+ 
+- user name =  ros
 
 ---
 
 Running the container:
 
-	$ cd [file_name]
-	$ bash go.sh
+	$ docker start <container_name>
+	$ docker exec -it <container_name> bin/bash
 
+Remember to source the bashrc file
+
+	$ source /home/ros/.bashrc
+ 
 Running GUI in container:
 
 Just call the commands as what you do in ubuntu 

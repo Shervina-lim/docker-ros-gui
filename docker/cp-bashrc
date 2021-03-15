@@ -117,3 +117,4 @@ if ! shopt -oq posix; then
 fi
 
 # ROS 
+source /opt/ros/melodic/setup.bash

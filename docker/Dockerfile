@@ -1,34 +1,31 @@
 ARG ros_distro
-ARG uid
-ARG gid
+# ARG user_name
 FROM osrf/ros:${ros_distro}-desktop-full
 
-ARG ros_distro
-ARG uid
-ARG gid
-
 RUN apt-get update && \
-	DEBIAN_FRONTEND=noninteractive apt-get -yq --force-yes install \
+	DEBIAN_FRONTEND=noninteractive apt-get -yq --allow-downgrades --allow-remove-essential --allow-change-held-packages install \
 		sudo \
 		python-catkin-tools \
 		dialog \
 		less \
 		x-window-system \
-		mesa-utils
+		mesa-utils \
+		apt-transport-https \
+		ca-certificates \
+		curl \
+		software-properties-common \
+		python3-pip 
 
-RUN mkdir -p /home/${ros_distro}-dev/catkin_ws/src && \
-    echo "${ros_distro}-dev:x:${uid}:${gid}:Developer,,,:/home/${ros_distro}-dev:/bin/bash" >> /etc/passwd && \
-    echo "${ros_distro}-dev:x:${gid}:" >> /etc/group && \
-    echo "${ros_distro}-dev ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${ros_distro}-dev && \
-    chmod 0440 /etc/sudoers.d/${ros_distro}-dev && \
-    chown ${uid}:${gid} -R /home/${ros_distro}-dev
+# create user
+RUN mkdir -p /home/ros
+#copy bash file
+COPY docker/cp-bashrc /home/ros/.bashrc
 
-USER ${ros_distro}-dev
-ENV HOME /home/${ros_distro}-dev
-COPY bashrc /home/${ros_distro}-dev/.bashrc
-COPY bashrc /root/.bashrc
-COPY bash_profile /home/${ros_distro}-dev/.bash_profile
-COPY bash_profile /root/.bash_profile
+# install sublime
+RUN curl -fsSL https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+RUN add-apt-repository "deb https://download.sublimetext.com/ apt/stable/"
+RUN apt-get update && \
+	DEBIAN_FRONTEND=noninteractive apt-get -yq --force-yes install \
+		sublime-text
 
-COPY rosbox_entrypoint.sh /rosbox_entrypoint.sh
-ENTRYPOINT /rosbox_entrypoint.sh
+ENTRYPOINT ["bin/bash"]
