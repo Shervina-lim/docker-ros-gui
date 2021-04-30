@@ -3,7 +3,7 @@ ROS docker container that can run gui applications
 This was created with reference to [docker-ros-box](https://github.com/pierrekilly/docker-ros-box) and [ros docker tutorials](http://wiki.ros.org/docker/Tutorials/GUI).
 
 To use this, docker is sufficient since only using docker run to create containers. No need docker compose.
-Please make sure that user is in docker group
+Please make sure that user is in docker group 
 
 Clone this:
 
@@ -11,8 +11,7 @@ Clone this:
 
 To create new containers:	
 	
-	$ cd docker-ros-gui
-	$ sudo ./build.sh [ros-version] [container_name]
+	$ ./docker-ros-gui/build.sh [ros-version] [container_name]
 
 ### Note: 
  
@@ -22,8 +21,7 @@ To create new containers:
 
 Running the container:
 
-	$ docker start <container_name>
-	$ docker exec -it <container_name> bin/bash
+	$ ./docker-ros-gui/docker_entry/run.sh [container_name]
 
 Remember to source the bashrc file
 
@@ -39,10 +37,16 @@ Example:
 	$ xclock
 	$ glxgears
 
-To open more terminals of the container,run the **docker exec** line again.
+To open more terminals of the container,run the **run.sh** again.
+
+Removing the container and folder:
+
+	$ ./docker-ros-gui/docker_entry/delete.sh [container_name]
 
 Future:
 
+- Auto source the bashrc file when entering the container
 - Add instructions to allow usb devices
 - Add instructions to mount volumes
+
 
