@@ -15,5 +15,3 @@ List containers:
 Remove container:
 
 	$ docker rm <container_name> or <container_tag>
-
-Transfer files from docker to local: Use the src folder.
