@@ -24,9 +24,9 @@ Setting up the repo
 4. Setup stable repo (for ubuntu x64)
 
 		sudo add-apt-repository \
-   	  "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   	  $(lsb_release -cs) \
-   	  stable"
+		"deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+		$(lsb_release -cs) \
+		stable"
 
 Installing Docker engine
 
