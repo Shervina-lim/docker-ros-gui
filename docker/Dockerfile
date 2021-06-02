@@ -2,8 +2,6 @@
 # generated from docker_images/create_ros_core_image.Dockerfile.em
 FROM ubuntu:bionic-20200807
 
-
-
 # setup timezone
 RUN echo 'Etc/UTC' > /etc/timezone && \
     ln -s /usr/share/zoneinfo/Etc/UTC /etc/localtime && \
@@ -11,33 +9,33 @@ RUN echo 'Etc/UTC' > /etc/timezone && \
     apt-get install -q -y --no-install-recommends tzdata && \
     rm -rf /var/lib/apt/lists/*
 
+# allow nvidia container toolkit
 ENV NVIDIA_VISIBLE_DEVICES \
     ${NVIDIA_VISIBLE_DEVICES:-all}
 ENV NVIDIA_DRIVER_CAPABILITIES \
     ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics,compute,utility,display
 
 
-RUN apt-get update && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && \
       apt-get -y install sudo
 
 
-RUN apt-get -y install libboost-filesystem-dev libboost-system-dev libboost-thread-dev terminator vim libjsoncpp-dev gimp vlc jstest-gtk openssh-server lm-sensors htop tmux xclip nano vim python-tk dbus-x11 python3-pip python-pip
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install libboost-filesystem-dev libboost-system-dev libboost-thread-dev terminator vim libjsoncpp-dev gimp vlc jstest-gtk openssh-server lm-sensors htop tmux xclip nano vim python-tk dbus-x11 python3-pip python-pip 
 
 # install packages
-RUN apt-get update && apt-get install -q -y --no-install-recommends \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -q -y --no-install-recommends \
     dirmngr \
     gnupg2 
 
 # Install sublime
 RUN curl -O https://download.sublimetext.com/sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb && \
-        dpkg -i -R sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb || echo "\n Will force install of missing ST3 dependencies...\n" && \
-
+        dpkg -i -R sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb || echo "\n Will force install of missing ST3 dependencies...\n" 
+        
 # Force installation of missing dependencies for Sublime
-        apt-get -y -f install && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y -f install && \
         rm -rvf sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb && \
-
-# Cleanup
         rm -rf /var/lib/apt/lists/*
+     
 # setup keys
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
@@ -51,11 +49,11 @@ ENV LC_ALL C.UTF-8
 ENV ROS_DISTRO melodic
 
 # install ros packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends \
     ros-melodic-desktop-full=1.4.1-0* \
     && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install --no-install-recommends -y \
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
     python-rosdep \
     python-rosinstall \
@@ -64,7 +62,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 RUN rosdep init && rosdep update --rosdistro $ROS_DISTRO
 RUN apt-get update
-RUN apt-get -y install -y python-rosinstall ros-melodic-qt-ros ros-melodic-rosbridge-suite
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install -y python-rosinstall ros-melodic-qt-ros
 RUN pip install -U catkin_tools
 
 ###########################
