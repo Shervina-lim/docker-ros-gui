@@ -56,4 +56,8 @@ About container:
 - Sharing of usb devices and drives.
 - local drive linked to container via docker-ws/[container_name]
 
+Future improvement:
+
+- use user instead of root so can easily copy and paste stuff from container to local computer.
+
 
