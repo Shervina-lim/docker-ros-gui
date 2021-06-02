@@ -30,7 +30,7 @@ Create container:
 
 	./script/make_container.sh [container_name]
 
-### Note: 
+**Note:** 
 
 Image already includes the following:
 
