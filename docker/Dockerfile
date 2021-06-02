@@ -26,9 +26,18 @@ RUN apt-get -y install libboost-filesystem-dev libboost-system-dev libboost-thre
 # install packages
 RUN apt-get update && apt-get install -q -y --no-install-recommends \
     dirmngr \
-    gnupg2 \
-    && rm -rf /var/lib/apt/lists/*
+    gnupg2 
 
+# Install sublime
+RUN curl -O https://download.sublimetext.com/sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb && \
+        dpkg -i -R sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb || echo "\n Will force install of missing ST3 dependencies...\n" && \
+
+# Force installation of missing dependencies for Sublime
+        apt-get -y -f install && \
+        rm -rvf sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb && \
+
+# Cleanup
+        rm -rf /var/lib/apt/lists/*
 # setup keys
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
 
@@ -63,17 +72,6 @@ RUN pip install -U catkin_tools
 # Terminator Config
 RUN mkdir -p /root/.config/terminator/
 COPY docker/terminator_config /root/.config/terminator/config 
-
-# Install sublime
-RUN curl -O https://download.sublimetext.com/sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb && \
-        dpkg -i -R sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb || echo "\n Will force install of missing ST3 dependencies...\n" && \
-
-# Force installation of missing dependencies for Sublime
-        apt-get -y -f install && \
-        rm -rvf sublime-text_build-"${SUBLIME_BUILD}"_amd64.deb && \
-
-# Cleanup
-        rm -rf /var/lib/apt/lists/*
 		
 # setup entrypoint
 COPY docker/bashrc /root/.bashrc
