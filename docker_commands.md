@@ -1,17 +1,36 @@
-Docker containers:
+# Useful docker commands
 
 List images:
 
-	$ docker image list
+	docker image list
 
 Remove images:
 
-	$ docker rmi <image_tag> or <image_name>
+	docker rmi <image_tag> or <image_name>
 
 List containers: 
 
-	$ docker ps -a 
+	docker ps -a 
 
 Remove container:
 
-	$ docker rm <container_name> or <container_tag>
+	docker rm <container_name> or <container_tag>
+	
+Delete all docker containers and images
+
+	docker system prune -a
+	
+Clone docker container 
+
+1. Create an image of the container
+
+	docker commit --message="Snapshot of my container" my_container my_container_snapshot:yymmdd
+
+2. Create a new container with that image
+
+	docker run --name=my_clone my_container_snapshot:yymmdd
+	
+or can use make_containe.sh but remember to change the **image tag**.
+
+
+

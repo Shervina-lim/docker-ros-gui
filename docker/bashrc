@@ -116,4 +116,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# ROS 
+source /opt/ros/melodic/setup.bash
+#source /home/<user>/workarea/isera2/devel/setup.bash
+
+
