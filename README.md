@@ -57,6 +57,13 @@ About container:
 - Sharing of usb devices and drives.
 - local drive linked to container via docker-ws/[container_name]
 
+Problem with user = root:
+
+Although you can see the files from file explorer in /docker-ws/<container_name>, but they are just read only. You also cannot move or copy file to and from the folder as it requires **root** permissions. 
+
+To have read and write rights, need to do it within terminal.
+
+
 Future improvement:
 
-- write one for user
+- Write one for user = yourself. See if can solve the following problem.
