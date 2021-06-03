@@ -61,7 +61,9 @@ Problem with user = root:
 
 Although you can see the files from file explorer in /docker-ws/<container_name>, but they are just read only. You also cannot move or copy file to and from the folder as it requires **root** permissions. 
 
-To have read and write rights, need to do it within terminal.
+To have read and write rights, need to do it within terminal or use the following command to make it editable.
+
+	sudo chown -R $USER:$USER ~/docker-ws/<container_name>
 
 
 Future improvement:
