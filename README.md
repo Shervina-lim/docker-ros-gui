@@ -7,7 +7,7 @@ To use this, docker is sufficient since only using docker run to create containe
 Before using, make sure:
 
 - [nvidia container toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) is installed
-- user is in docker group
+- user is in docker group. Refer to install_docker.md.
 
 ## How to use
 
@@ -18,7 +18,8 @@ Clone this:
 Create custom image:	
 
 	cd docker-ros,gui	
-	./script/build.sh
+	./script/build.sh nvidia-root
+
 
 Before creating container, 
 
@@ -28,7 +29,7 @@ Before creating container,
 
 Create container:
 
-	./script/make_container.sh [container_name]
+	./script/make_container.sh [container_name] [root]
 
 **Note:** 
 
@@ -58,6 +59,4 @@ About container:
 
 Future improvement:
 
-- use user instead of root so can easily copy and paste stuff from container to local computer.
-
-
+- write one for user
