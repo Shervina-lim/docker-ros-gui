@@ -21,33 +21,16 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
         docker rm ${name}
     fi
 
-    # XAUTH=/tmp/.docker.xauth
-
-    # echo "Preparing Xauthority data..."
-    # xauth_list=$(xauth nlist :0 | tail -n 1 | sed -e 's/^..../ffff/')
-    # if [ ! -f $XAUTH ]; then
-    #     if [ ! -z "$xauth_list" ]; then
-    #         echo $xauth_list | xauth -f $XAUTH nmerge -
-    #     else
-    #         touch $XAUTH
-    #     fi
-    #     chmod a+r $XAUTH
-    # fi
-
-    # echo "Done."
-    # echo ""
-    # echo "Verifying file contents:"
-    # file $XAUTH
-    # echo "--> It should say \"X11 Xauthority data\"."
-    # echo ""
-    # echo "Permissions:"
-    # ls -FAlh $XAUTH
-    # echo ""
-    # echo "Running docker..."
-
     # create directory
     mkdir -p /home/$USER/docker-ws/${name}
+    # copy Terminator Config and bashrc 
+    mkdir -p /home/$USER/docker-ws/${name}/.config/terminator/
+    cp /home/$USER/docker-ros-gui/docker/config/terminator_config /home/$USER/docker-ws/${name}/.config/terminator/config 
+    cp /home/$USER/docker-ros-gui/docker/config/bashrc /home/$USER/docker-ws/${name}/.bashrc
 
+    # check ur network interface device name and switch it with wlp62s0 at the line 52
+    # --memory-swap -1 = allow max RAM
+    # remove -v="/home/$USER/bagfiles:/home/${user}/bagfiles:rw"
     if [ $user == "root" ]; then
         docker run -it --privileged --net=host --ipc=host \
              --name=${name} \
@@ -55,9 +38,9 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              --env="DISPLAY=$DISPLAY" \
              --env="QT_X11_NO_MITSHM=1" \
              --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-             -v="/home/$USER/docker-ws/${name}:/root/${name}" \
+             -v="/home/$USER/docker-ws/${name}:/root" \
              -v="/media/$USER:/media/${name}:rw" \
-             -v="/home/$USER/bagfiles:/root/${name}/bagfiles:rw" \
+             -v="/home/$USER/bagfiles:/root/bagfiles:rw" \
              -v="/dev:/dev:rw" \
              --cpus 16 \
              --memory-swap -1 \
@@ -65,6 +48,7 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              sl/u18-melodic:nvidia-root \
              terminator
 
+## also can look into how to make new user
     elif [ $user == "user" ]; then
         docker run -it --privileged --net=host --ipc=host \
              --name=${name} \
@@ -72,9 +56,9 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              --env="DISPLAY=$DISPLAY" \
              --env="QT_X11_NO_MITSHM=1" \
              --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
-             -v="/home/$USER/docker-ws/${name}:/root/${name}" \
-             -v="/media/$USER:/media/${name}:rw" \
-             -v="/home/$USER/bagfiles:/root/${name}/bagfiles:rw" \
+             -v="/home/$USER/docker-ws/${name}:/home/${user}" \
+             -v="/media/$USER:/media/${user}:rw" \
+             -v="/home/$USER/bagfiles:/home/${user}/bagfiles:rw" \
              -v="/dev:/dev:rw" \
              --user=$(id -u $USER):$(id -g $USER) \
              --env="DISPLAY" \
@@ -87,13 +71,11 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              --runtime=nvidia \
              sl/u18-melodic:nvidia-user \
              terminator
-         fi
-fi
-# check ur network interface device name and switch it with wlp62s0 at the line 52
-# --memory-swap -1 = allow max RAM
+    fi
+fi  
 
 echo ""
 echo "Container is create!"
 echo ""
-echo "Command to start container: ./scripts/run.sh ${container_name}"
-echo "Command to delete container: ./scripts/delete.sh ${container_name}"
+echo "Command to start container: ./scripts/run.sh ${name}"
+echo "Command to delete container: ./scripts/delete.sh ${name}"
