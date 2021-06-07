@@ -37,7 +37,6 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              --env="ROS_IP=$(ip a s dev wlp62s0 | grep -oP 'inet\s+\K[^/]+')" \
              --env="DISPLAY=$DISPLAY" \
              --env="QT_X11_NO_MITSHM=1" \
-             --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
              -v="/home/$USER/docker-ws/${name}:/root" \
              -v="/media/$USER:/media/${name}:rw" \
              -v="/home/$USER/bagfiles:/root/bagfiles:rw" \
@@ -55,7 +54,6 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              --env="ROS_IP=$(ip a s dev wlp62s0 | grep -oP 'inet\s+\K[^/]+')" \
              --env="DISPLAY=$DISPLAY" \
              --env="QT_X11_NO_MITSHM=1" \
-             --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
              -v="/home/$USER/docker-ws/${name}:/home/${user}" \
              -v="/media/$USER:/media/${user}:rw" \
              -v="/home/$USER/bagfiles:/home/${user}/bagfiles:rw" \
@@ -74,8 +72,7 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
     fi
 fi  
 
-echo ""
-echo "Container is create!"
-echo ""
-echo "Command to start container: ./scripts/run.sh ${name}"
-echo "Command to delete container: ./scripts/delete.sh ${name}"
+echo 
+echo "Start container: ./scripts/run.sh ${name}"
+echo "Delete container: ./scripts/delete.sh ${name}"
+echo 

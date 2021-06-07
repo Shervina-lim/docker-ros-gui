@@ -29,7 +29,7 @@ echo ""
 # Clean data 
 echo "Do you want to delete container data? Y/N"
 read var
-echo "u choose, $var"
+
 if [[ $var == "Y" || $var == "y" ]]; then
 	sudo rm -rf ${home}/docker-ws/${container_name}
 	echo "All data has been cleared!"
