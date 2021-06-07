@@ -3,6 +3,8 @@
 container_name="$1"
 home=$HOME
 
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
+
 if [ "$1" == "" ]
 then
 	echo
@@ -25,11 +27,11 @@ fi
 
 # running container
 echo "Executing into container ..."
-docker exec -ti ${id} bin/bash
+docker exec -ti ${id} bash
 
 echo
+echo "Giving permissions to read and write in docker-ws/${container_name}"
+chown -R $USER:$USER /home/$SUDO_USER/docker-ws/${container_name}
 echo
-echo "	Giving permissions to read and write in docker-ws/${container_name}"
-sudo chown -R $USER:$USER ~/docker-ws/${container_name}
-echo "	Permission given!"
+echo "Permission given!"
 echo
