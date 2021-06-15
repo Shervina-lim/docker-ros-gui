@@ -100,7 +100,7 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              -v="/dev:/dev:rw" \
              --cpus ${cpu} \
              --memory-swap ${ram}\
-             sl/u18-melodic:nvidia-root \
+             sl/u18-melodic:cpu-root \
              terminator
 
     elif [ $user == "cpu-user" ]; then
