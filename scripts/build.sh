@@ -7,10 +7,9 @@ then
     echo
     echo "To build custom docker image for ros melodic"
     echo 
-    echo "Usage: ./build.sh [mode] [nvidia]"
+    echo "Usage: ./build.sh [mode]"
     echo
-    echo "mode: root, user"
-    echo "nvidia: yes, no"
+    echo "Mode: nvidia-root, nvidia-user, cpu-root, cpu-user"
     echo
     exit 1
 else
@@ -20,20 +19,19 @@ else
 fi
 
 if [ "$mode" == "nvidia-root" ]; then
-	if [ "$nvidia" == "yes" ]; then
-		echo "building nvidia root"
-		docker build -t sl/u18-melodic:nvidia-root -f docker/nvidia/Dockerfile-nvidia-root .
-	else
-		echo "building cpu root"
-		docker build -t sl/u18-melodic:cpu-root -f docker/cpu/Dockerfile-root .
-	fi
+	echo "building nvidia root"
+	docker build -t sl/u18-melodic:nvidia-root -f docker/nvidia/Dockerfile-nvidia-root .
+
+elif [ "$mode" == "cpu-root" ]; then
+	echo "building cpu root"
+	docker build -t sl/u18-melodic:cpu-root -f docker/cpu/Dockerfile-root .
+
 elif [ "$mode" == "nvidia-user" ]; then
-	if [ "$nvidia" == "yes" ]; then
-		echo "building nvidia user"
-		docker build -t sl/u18-melodic:nvidia-user -f docker/nvidia/Dockerfile-nvidia-user .
-	else
-		echo "building root user"
-		docker build -t sl/u18-melodic:cpu-user -f docker/cpu/Dockerfile-user .
-	fi
+	echo "building nvidia user"
+	docker build -t sl/u18-melodic:nvidia-user -f docker/nvidia/Dockerfile-nvidia-user .
+
+elif [ "$mode" == "cpu-user" ]; then
+	echo "building cpu user"
+	docker build -t sl/u18-melodic:cpu-user -f docker/cpu/Dockerfile-user .
 fi
 
