@@ -19,8 +19,7 @@ then
     exit 1
 fi
 
-# create container with custom image
-
+# set variables
 name=$1
 user=$2
 
@@ -28,13 +27,15 @@ if [ "$3" == "" ]; then
     cpu=16
 else
     cpu=$3
+fi
 
 if [ "$4" == "" ]; then
     ram=-1
 else
     ram=$3
+fi
 
-
+# remove existing container with same name
 if [ ! "$(docker ps -q -f name=${name})" ]; then
     if [ "$(docker ps -aq -f status=exited -f name=${name})" ]; then
         # cleanup
