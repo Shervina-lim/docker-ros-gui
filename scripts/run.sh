@@ -32,6 +32,7 @@ docker exec -ti ${id} bash
 echo
 echo "Giving permissions to read and write in docker-ws/${container_name}"
 sudo chown -R $USER:$USER /home/$USER/docker-ws/${container_name}
+sudo chown -R $USER:$USER /home/$USER/bagfiles
 echo
 echo "Permission given!"
 echo
