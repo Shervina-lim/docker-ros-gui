@@ -6,9 +6,15 @@ then
     echo "To create ros docker container with gui enabled"
     echo 
     echo "Usage: ./make_container.sh [container_name] [mode] [cpu] [ram]"
+    echo
     echo "Mode: nvidia-root, nvidia-user, cpu-root, cpu-user"
-    echo "Cpu: choose how much core you give docker, default = 16"
-    echo "Ram: choose how much ram for docker, default = 15g"
+    echo 
+    echo "Cpu: choose how much core you give docker"
+    echo "Default = 16"
+    echo
+    echo "Ram: choose how much ram for docker"
+    echo "Format: <number><<unit>, eg 10g -> 10 gb "
+    echo "Default = -1"
     echo
     exit 1
 fi
@@ -24,7 +30,7 @@ else
     cpu=$3
 
 if [ "$4" == "" ]; then
-    ram=15g
+    ram=-1
 else
     ram=$3
 
@@ -55,7 +61,7 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              -v="/home/$USER/bagfiles:/root/bagfiles:rw" \
              -v="/dev:/dev:rw" \
              --cpus ${cpu} \
-             -m ${ram} \
+             --memory-swap ${ram}\
              --runtime=nvidia \
              sl/u18-melodic:nvidia-root \
              terminator
@@ -77,7 +83,7 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              --volume="/etc/shadow:/etc/shadow:ro" \
              --volume="/etc/sudoers.d:/etc/sudoers.d:ro" \
              --cpus ${cpu} \
-             -m ${ram} \
+             --memory-swap ${ram}\
              --runtime=nvidia \
              sl/u18-melodic:nvidia-user \
              terminator
@@ -88,19 +94,12 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
              --env="ROS_IP=$(ip a s dev wlp62s0 | grep -oP 'inet\s+\K[^/]+')" \
              --env="DISPLAY=$DISPLAY" \
              --env="QT_X11_NO_MITSHM=1" \
-             -v="/home/$USER/docker-ws/${name}:/home/${user}" \
-             -v="/home/$USER/bagfiles:/home/${user}/bagfiles:rw" \
+             -v="/home/$USER/docker-ws/${name}:/root" \
+             -v="/home/$USER/bagfiles:/root/bagfiles:rw" \
              -v="/dev:/dev:rw" \
-             --user=$(id -u $USER):$(id -g $USER) \
-             --env="DISPLAY" \
-             --volume="/etc/group:/etc/group:ro" \
-             --volume="/etc/passwd:/etc/passwd:ro" \
-             --volume="/etc/shadow:/etc/shadow:ro" \
-             --volume="/etc/sudoers.d:/etc/sudoers.d:ro" \
              --cpus ${cpu} \
-             -m ${ram} \
-             --runtime=nvidia \
-             sl/u18-melodic:nvidia-user \
+             --memory-swap ${ram}\
+             sl/u18-melodic:nvidia-root \
              terminator
 
     elif [ $user == "cpu-user" ]; then
@@ -119,9 +118,8 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
          --volume="/etc/shadow:/etc/shadow:ro" \
          --volume="/etc/sudoers.d:/etc/sudoers.d:ro" \
          --cpus ${cpu} \
-         -m ${ram} \
-         --runtime=nvidia \
-         sl/u18-melodic:nvidia-user \
+         --memory-swap ${ram}\
+         sl/u18-melodic:cpu-user \
          terminator
     fi
 fi  
