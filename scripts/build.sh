@@ -17,20 +17,23 @@ else
 	echo 
 	echo "Building ${mode} image ..."
 	echo
+fi
 
-	if [ $mode == "nvidia-root" ]; then
+if [ "$mode" == "nvidia-root" ]; then
+	if [ "$nvidia" == "yes" ]; then
 		echo "building nvidia root"
-		if [ $nvidia == "yes" ]; then
-			docker build -t sl/u18-melodic:nvidia-root -f docker/nvidia/Dockerfile-nvidia-root .
-		else
-			docker build -t sl/u18-melodic:cpu-root -f docker/cpu/Dockerfile-root .
-		fi
-	elif [ $mode == "nvidia-user" ]; then
+		docker build -t sl/u18-melodic:nvidia-root -f docker/nvidia/Dockerfile-nvidia-root .
+	else
+		echo "building cpu root"
+		docker build -t sl/u18-melodic:cpu-root -f docker/cpu/Dockerfile-root .
+	fi
+elif [ "$mode" == "nvidia-user" ]; then
+	if [ "$nvidia" == "yes" ]; then
 		echo "building nvidia user"
-		if [ $nvidia == "yes" ]; then
-			docker build -t sl/u18-melodic:nvidia-user -f docker/nvidia/Dockerfile-nvidia-user .
-		else
-			docker build -t sl/u18-melodic:cpu-user -f docker/cpu/Dockerfile-user .
-		fi
+		docker build -t sl/u18-melodic:nvidia-user -f docker/nvidia/Dockerfile-nvidia-user .
+	else
+		echo "building root user"
+		docker build -t sl/u18-melodic:cpu-user -f docker/cpu/Dockerfile-user .
 	fi
 fi
+
