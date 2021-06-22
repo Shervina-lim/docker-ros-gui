@@ -83,3 +83,5 @@ To have read and write rights, need to do it within terminal or use the followin
 ## Future improvement:
 
 - Write one for user = yourself. See if can solve the following problem.
+- Write some scripts to install vios, kalir, docker for easy setup at new computers
+- Find a way to allow users to open multiple containers. Now using user == root, I only can open one container at a time. so, cannot multitask. Maybe cos they are all sharing the same "user" which cause this to happen. 
