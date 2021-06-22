@@ -49,13 +49,13 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
     cp /home/$USER/docker-ros-gui/docker/config/terminator_config /home/$USER/docker-ws/${name}/.config/terminator/config 
     cp /home/$USER/docker-ros-gui/docker/config/bashrc /home/$USER/docker-ws/${name}/.bashrc
 
-    # check ur network interface device name and switch it with wlo1 at the line 52
+    # check ur network interface device name and switch it with enp5s0 at the line 52
     # --memory-swap -1 = allow max RAM
     # remove -v="/home/$USER/bagfiles:/home/${user}/bagfiles:rw"
     if [ $user == "nvidia-root" ]; then
         docker run -it --privileged --net=host --ipc=host \
              --name=${name} \
-             --env="ROS_IP=$(ip a s dev wlo1 | grep -oP 'inet\s+\K[^/]+')" \
+             --env="ROS_IP=$(ip a s dev enp5s0 | grep -oP 'inet\s+\K[^/]+')" \
              --env="DISPLAY=$DISPLAY" \
              --env="QT_X11_NO_MITSHM=1" \
              -v="/home/$USER/docker-ws/${name}:/root" \
@@ -71,7 +71,7 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
     elif [ $user == "nvidia-user" ]; then
         docker run -it --privileged --net=host --ipc=host \
              --name=${name} \
-             --env="ROS_IP=$(ip a s dev wlo1 | grep -oP 'inet\s+\K[^/]+')" \
+             --env="ROS_IP=$(ip a s dev enp5s0 | grep -oP 'inet\s+\K[^/]+')" \
              --env="DISPLAY=$DISPLAY" \
              --env="QT_X11_NO_MITSHM=1" \
              -v="/home/$USER/docker-ws/${name}:/home/${user}" \
@@ -92,7 +92,7 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
      elif [ $user == "cpu-root" ]; then
         docker run -it --privileged --net=host --ipc=host \
              --name=${name} \
-             --env="ROS_IP=$(ip a s dev wlo1 | grep -oP 'inet\s+\K[^/]+')" \
+             --env="ROS_IP=$(ip a s dev enp5s0 | grep -oP 'inet\s+\K[^/]+')" \
              --env="DISPLAY=$DISPLAY" \
              --env="QT_X11_NO_MITSHM=1" \
              -v="/home/$USER/docker-ws/${name}:/root" \
@@ -106,7 +106,7 @@ if [ ! "$(docker ps -q -f name=${name})" ]; then
     elif [ $user == "cpu-user" ]; then
     docker run -it --privileged --net=host --ipc=host \
          --name=${name} \
-         --env="ROS_IP=$(ip a s dev wlo1 | grep -oP 'inet\s+\K[^/]+')" \
+         --env="ROS_IP=$(ip a s dev enp5s0 | grep -oP 'inet\s+\K[^/]+')" \
          --env="DISPLAY=$DISPLAY" \
          --env="QT_X11_NO_MITSHM=1" \
          -v="/home/$USER/docker-ws/${name}:/home/${user}" \
