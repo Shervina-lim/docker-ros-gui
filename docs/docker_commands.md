@@ -39,3 +39,5 @@ or can use make_containe.sh but remember to change the **image tag**.
 ### Copy files out of docker
 
 	docker cp container_name:/file.txt file.txt
+
+Note both command are executed from your local computer terminal

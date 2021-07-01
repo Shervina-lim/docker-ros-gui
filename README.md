@@ -25,7 +25,7 @@ Clone this:
 
 #### Before creating container, 
 
-- check your network interface device name and change it in make_container.sh 
+- check your network interface device name and change it in make_container.sh. Can use either ethernet or wifi one. If you don't set this, you have to manually export ROS_IP for roscore to work. 
 - modify the no. of cores you want to allow the container to use at **--cpus**
 - modify the amount of RAM you want container to use at **--memory-swap**.
 
@@ -71,17 +71,27 @@ Mount drive
 
 	mount /dev/sdc1 /media/<container_name>
 
-#### Problem with user = root:
+#### Some known problems
 
-Although you can see the files from file explorer in /docker-ws/<container_name>, but they are just read only. You also cannot move or copy file to and from the folder as it requires **root** permissions. 
+1. Folder read only issue
 
-To have read and write rights, need to do it within terminal or use the following command to make it editable.
+Although you can see the files from file explorer in /docker-ws/<container_name>, but they are just read only. You also cannot move or copy file to and from the folder as it requires **root** permissions. This is because we run the container as **root**
+
+To have read and write rights for those folders, need to do it within terminal or use the following command to make it editable. I have already add this to run.sh.
 
 	sudo chown -R $USER:$USER ~/docker-ws/<container_name>
+
+2. Roscore not working
+
+You may find roscore not working when you change network. If so, you have to maunally export ros ip again. Run ```export ROS_IP=localhost```. Also you can just modify the make_container.sh to use localhost to prevent this issue 
+
+	--env="ROS_IP=localhost"\
 
 
 ## Future improvement:
 
-- Write one for user = yourself. See if can solve the following problem.
+- Write one for user = yourself. See if can solve the read only problem
+- See if any easy way to create custom user for each container. eg. user = "vio", "vm". so, no sharing of user. May be the solution to open mulitple containers. 
 - Write some scripts to install vios, kalir, docker for easy setup at new computers
-- Find a way to allow users to open multiple containers. Now using user == root, I only can open one container at a time. so, cannot multitask. Maybe cos they are all sharing the same "user" which cause this to happen. 
+- Find a way to allow users to open multiple containers. Now using user == root, I only can open one container at a time. so, cannot multitask. Maybe cos they are all sharing the same "user" which cause this to happen.
+- Edit my own vio fork for easy transfer of config files.
